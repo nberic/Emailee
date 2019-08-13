@@ -40,5 +40,4 @@ def read_email_properties():
 
 if __name__ == "__main__":
 	email_properties = read_email_properties()
-	print(email_properties)
 	send_email(email_properties)	
