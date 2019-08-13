@@ -11,12 +11,17 @@ def send_email(email_properties):
 		receiver_address = email_properties["receiver_address"]
 		title = email_properties["title"]
 		message = f"Subject: { title }\n"
-		message += f"This is a test."
-	except Exception as e:
-		raise e
+		with open("body.txt", "r") as f:
+			message += ''.join(f.readlines())
+	except FileNotFoundError:
+		print("File 'text.txt' is not present in current directory.")
+	except KeyError:
 		print("You did not provide all required email properties.")
 		print("Required email properties are: smtp_host, smtp_port, sender_address, receiver_address, and title.")
 		print("Also, note that sender_password should be set as a system environment variable named 'EMAILEE_SENDER_PASSWORD'")
+	except Exception as e:
+		print("Unexpected error occured.")
+		raise e
 	else:
 		context = ssl.create_default_context()
 		with smtplib.SMTP_SSL(smtp_host, smtp_port, context=context) as server:
